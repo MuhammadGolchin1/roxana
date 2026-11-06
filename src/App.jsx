@@ -114,7 +114,7 @@ export default function App() {
           : item
       ));
       const message = [
-        'درخواست پیگیری روکسانا',
+        'درخواست پیگیری رکسانا',
         'نام: ' + contact.name,
         channelLabel + ': ' + contact.value,
         'BMI: ' + result.display,
@@ -152,11 +152,11 @@ export default function App() {
       <a className="skip" href="#main">رفتن به محتوای اصلی</a>
       <header className="topbar">
         <nav className="wrap nav" aria-label="منوی اصلی">
-          <a className="brand" href="#top" aria-label="روکسانا، ابتدای صفحه">
+          <a className="brand" href="#top" aria-label="رکسانا، ابتدای صفحه">
             <img className="brand-mark" src="/roxana-logo.png" alt="" aria-hidden="true" />
-            <span className="brand-name">روکسانا</span>
+            <span className="brand-name">رکسانا</span>
           </a>
-          <div className="nav-links"><a href="#about">معرفی روکسانا</a><a href="#assessment">ارزیابی وزن</a></div>
+          <div className="nav-links"><a href="#about">معرفی رکسانا</a><a href="#assessment">ارزیابی وزن</a></div>
           <a className="button secondary" href="#assessment">شروع ارزیابی</a>
         </nav>
       </header>
@@ -164,38 +164,24 @@ export default function App() {
       <main id="main">
         <section className="wrap hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">روکسانا · سبک زندگی و تناسب اندام</p>
-            <h1 id="hero-title">با بدن خودت <span>همراه‌تر باش</span></h1>
-            <p>توی پیج اینستاگرام روکسانا، تمرین‌های کوتاه در خانه، غذاهای ساده و سالم و آموزش حرکات اصلاحی رو پیدا می‌کنی. اگر می‌خوای بدونی از نظر BMI در محدوده بررسی آمپول کاهش وزن هستی، از ارزیابی اولیه شروع کن.</p>
+            <p className="eyebrow">رکسانا · سبک زندگی و تناسب اندام</p>
+            <h1 id="hero-title">نسخه بهتری از خودت رو زندگی کن!</h1>
+            <p>توی پیج اینستاگرام رکسانا، تمرین‌های کوتاه در خانه، غذاهای ساده و سالم و آموزش حرکات اصلاحی رو پیدا می‌کنی. اگر می‌خوای بدونی از نظر BMI در محدوده بررسی آمپول کاهش وزن هستی، از ارزیابی اولیه شروع کن.</p>
             <div className="hero-actions">
               <a className="button" href="#assessment">ارزیابی اولیه برای آمپول لاغری <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a>
             </div>
             <p className="small">نمایش فوری BMI · ارزیابی اولیه</p>
           </div>
-          <figure className="poster" aria-label="طرح مفهومی تصویر لندینگ روکسانا، حرکت و سبک زندگی">
+          <figure className="poster" aria-label="لوگوی رکسانا، سبک زندگی و تناسب اندام">
             <div className="poster-grid" aria-hidden="true"></div>
-            <span className="poster-wordmark" dir="ltr" aria-hidden="true">ROXANA / STUDIO</span>
-            <svg className="poster-art" viewBox="0 0 500 395" fill="none" aria-hidden="true">
-              <circle cx="255" cy="194" r="126" fill="#E7ECE5" stroke="#8FA38A"/>
-              <circle cx="255" cy="194" r="100" stroke="#B9C8B5" strokeDasharray="4 7"/>
-              <path d="M90 310h320M98 295h42m223 0h43" stroke="#AAB9A6" strokeLinecap="round"/>
-              <ellipse cx="258" cy="304" rx="117" ry="15" fill="#D9E2D6"/>
-              <path d="M257 149c-33-9-63 8-91 28-21 15-41 17-60 13m151-41c28 3 55 5 75-7 20-12 30-32 45-42" stroke="#6C8068" strokeWidth="10" strokeLinecap="round"/>
-              <circle cx="264" cy="106" r="21" fill="#FAF8F5" stroke="#6C8068" strokeWidth="6"/>
-              <path d="M260 148c-3 33-20 53-41 72l36 20 33-28c-14-22-19-44-16-63" fill="#F6D5C9" stroke="#6C8068" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M229 227c-22 15-47 27-64 49l-17 24m108-60 39 32 54 28" stroke="#6C8068" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M132 111h18m-9-9v18m233 75h24m-12-12v24" stroke="#8FA38A" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="162" cy="132" r="3" fill="#8FA38A"/>
-              <circle cx="366" cy="220" r="3" fill="#8FA38A"/>
-            </svg>
-            <figcaption className="poster-caption"><span className="poster-tag">حرکت، تغذیه و مراقبت از بدن</span><span>روکسانا</span></figcaption>
+            <img className="poster-art" src="/roxana-logo.png" alt="Roxana Lifestyle and Fitness" />
           </figure>
         </section>
 
         <section className="wrap topics" id="about" aria-labelledby="about-title">
           <div className="section-heading">
-            <p className="eyebrow">محتوای روکسانا</p>
-            <h2 id="about-title">توی روکسانا چی پیدا می‌کنی؟</h2>
+            <p className="eyebrow">محتوای رکسانا</p>
+            <h2 id="about-title">توی رکسانا چی پیدا می‌کنی؟</h2>
           </div>
           <div className="topic-grid">
             <article className="topic">
@@ -304,11 +290,11 @@ export default function App() {
                         </section>
                       ) : (
                         <form onSubmit={sendContact} noValidate aria-busy={isSending}>
-                          <h3>{result.inRange ? 'دوست داری زیر نظر متخصص‌ها وزن کم کنی؟' : 'دوست داری با تیم روکسانا در ارتباط باشی؟'}</h3>
+                          <h3>{result.inRange ? 'دوست داری زیر نظر متخصص‌ها وزن کم کنی؟' : 'دوست داری با تیم رکسانا در ارتباط باشی؟'}</h3>
                           <p className="form-intro">
                             {result.inRange
-                              ? 'اسمت و یکی از راه‌های ارتباطی رو وارد کن تا تیم روکسانا برای هماهنگی مشاوره باهات ارتباط بگیره.'
-                              : 'اگر دوست داری با تیم روکسانا صحبت کنی، اسمت و یکی از راه‌های ارتباطی رو وارد کن تا باهات تماس بگیریم.'}
+                              ? 'اسمت و یکی از راه‌های ارتباطی رو وارد کن تا تیم رکسانا برای هماهنگی مشاوره باهات ارتباط بگیره.'
+                              : 'اگر دوست داری با تیم رکسانا صحبت کنی، اسمت و یکی از راه‌های ارتباطی رو وارد کن تا باهات تماس بگیریم.'}
                           </p>
                           <div className="field">
                             <label className="label" htmlFor="contact-name">نام</label>
@@ -350,7 +336,7 @@ export default function App() {
       </main>
       <footer className="footer">
         <div className="wrap footer-inner">
-          <p className="small"><strong>روکسانا</strong> · سبک زندگی و تناسب اندام</p>
+          <p className="small"><strong>رکسانا</strong> · سبک زندگی و تناسب اندام</p>
           <a href="#top">بازگشت به بالای صفحه ↑</a>
         </div>
       </footer>

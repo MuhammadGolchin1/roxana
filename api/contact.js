@@ -61,7 +61,7 @@ export async function POST(request) {
     item === 'other' ? `مورد دیگه${healthDetail.trim() ? `: ${healthDetail.trim()}` : ''}` : item
   ));
   const message = [
-    'درخواست پیگیری روکسانا',
+    'درخواست پیگیری رکسانا',
     'نام: ' + name,
     channelLabel + ': ' + value,
     'BMI: ' + result.display,
