@@ -281,10 +281,10 @@ export default function App() {
                   <div className="followup">
                       {status === 'submitted' || status === 'unknown' ? (
                         <section id="confirmation" aria-labelledby="confirmation-title">
-                          <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>درخواستت برای ارسال ثبت شد</h3>
+                          <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>درخواستت برای تیم رکسانا ارسال شد!</h3>
                           <p>
                             {status === 'submitted'
-                              ? 'درخواست به بله فرستاده شد، اما مرورگر امکان تأیید دریافت پیام را نمی‌دهد. برای هماهنگی مشاوره باهات تماس می‌گیریم.'
+                              ? ' و به زودی باهات تماس می‌گیریم.'
                               : 'وضعیت ارسال مشخص نیست و ممکنه پیام رسیده باشه. برای جلوگیری از پیام تکراری، دوباره ارسال نکن.'}
                           </p>
                         </section>
