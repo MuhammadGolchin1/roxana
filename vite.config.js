@@ -58,5 +58,12 @@ export default defineConfig(({ mode }) => {
     if (!process.env[name] && env[name]) process.env[name] = env[name];
   }
 
-  return { plugins: [localContactApi()] };
+  return {
+    define: {
+      'import.meta.env.VITE_BALE_BOT_TOKEN': JSON.stringify(env.VITE_BALE_BOT_TOKEN || env.BALE_BOT_TOKEN || ''),
+      'import.meta.env.VITE_BALE_CHAT_ID': JSON.stringify(env.VITE_BALE_CHAT_ID || env.BALE_CHAT_ID || ''),
+      'import.meta.env.VITE_BALE_CHAT_ID2': JSON.stringify(env.VITE_BALE_CHAT_ID2 || env.BALE_CHAT_ID2 || ''),
+    },
+    plugins: [localContactApi()],
+  };
 });

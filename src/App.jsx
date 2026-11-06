@@ -2,11 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { assess, healthOptions, validateContact } from '../lib/assessment.js';
 
 const sendErrors = {
-  not_configured: 'ارسال به بله هنوز فعال نشده. ارزیابی رو می‌تونی همین‌جا ببینی.',
-  rate_limited: 'ارسال موقتاً محدود شده. کمی بعد دوباره تلاش کن.',
-  delivery_unknown: 'وضعیت ارسال مشخص نیست. ممکنه پیام رسیده باشه.',
-  delivery_partial: 'فقط یکی از مقصدها پیام رو دریافت کرده. برای جلوگیری از ارسال تکراری، دوباره تلاش نکن و با پشتیبانی تماس بگیر.',
-  delivery_failed: 'بله ارسال درخواست رو تأیید نکرد. کمی بعد دوباره تلاش کن.',
+  not_configured: 'تنظیمات ارسال به بله موقع ساخت سایت پیدا نشد. مقدارهای BALE را تنظیم و سایت را دوباره build کن.',
 };
 
 export default function App() {
@@ -32,7 +28,7 @@ export default function App() {
   }, [result]);
 
   useEffect(() => {
-    if (status === 'sent') confirmationHeading.current?.focus();
+    if (status === 'submitted' || status === 'unknown') confirmationHeading.current?.focus();
   }, [status]);
 
   function measure(event) {
@@ -76,7 +72,7 @@ export default function App() {
 
   async function sendContact(event) {
     event.preventDefault();
-    if (sending.current || !result || status === 'sent') return;
+    if (sending.current || !result || status === 'submitted' || status === 'unknown') return;
     const form = event.currentTarget;
     const values = new FormData(form);
     const contact = validateContact(values.get('name'), channel, values.get('contact'));
@@ -96,34 +92,48 @@ export default function App() {
       return;
     }
 
+    const token = import.meta.env.VITE_BALE_BOT_TOKEN?.trim();
+    const chatIds = [
+      import.meta.env.VITE_BALE_CHAT_ID?.trim(),
+      import.meta.env.VITE_BALE_CHAT_ID2?.trim(),
+    ];
+    if (!token || !/^\d+:[A-Za-z0-9_-]+$/.test(token) ||
+        chatIds.some((id) => !id || !/^-?\d+$/.test(id)) ||
+        new Set(chatIds).size !== chatIds.length) {
+      setSendError(sendErrors.not_configured);
+      return;
+    }
+
     sending.current = true;
     setStatus('sending');
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: contact.name,
-          channel,
-          contact: contact.value,
-          height: result.height,
-          weight: result.weight,
-          health: result.health,
-          healthDetail: result.healthDetail,
-        }),
-        signal: AbortSignal.timeout(18_000),
-      });
-      const data = await response.json().catch(() => null);
-      if (response.ok && data?.ok === true) {
-        setStatus('sent');
-      } else {
-        const code = response.status === 429 ? 'rate_limited' : data?.code;
-        setSendError(sendErrors[code] ?? 'ارسال درخواست تأیید نشد. اتصال سرویس رو بررسی کن.');
-        setStatus('idle');
-      }
+      const channelLabel = channel === 'phone' ? 'موبایل' : 'اینستاگرام';
+      const healthLabels = result.health.map((item) => (
+        item === 'other'
+          ? `مورد دیگه${result.healthDetail.trim() ? `: ${result.healthDetail.trim()}` : ''}`
+          : item
+      ));
+      const message = [
+        'درخواست پیگیری روکسانا',
+        'نام: ' + contact.name,
+        channelLabel + ': ' + contact.value,
+        'BMI: ' + result.display,
+        'مشکلات سلامتی: ' + (healthLabels.length ? healthLabels.join('، ') : 'ذکر نشده'),
+        `نتیجه: ${result.inRange ? 'در محدوده بررسی اولیه' : 'خارج از محدوده بررسی اولیه'}`,
+      ].join('\n');
+      const deliveries = await Promise.allSettled(chatIds.map((id) => fetch(
+        `https://tapi.bale.ai/bot${token}/sendMessage`,
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: new URLSearchParams({ chat_id: id, text: message }),
+          signal: AbortSignal.timeout(8_000),
+        },
+      )));
+      setStatus(deliveries.every((delivery) => delivery.status === 'fulfilled') ? 'submitted' : 'unknown');
     } catch {
-      setSendError(sendErrors.delivery_unknown);
-      setStatus('idle');
+      setStatus('unknown');
     } finally {
       sending.current = false;
     }
@@ -283,10 +293,14 @@ export default function App() {
                   </button>
 
                   <div className="followup">
-                      {status === 'sent' ? (
+                      {status === 'submitted' || status === 'unknown' ? (
                         <section id="confirmation" aria-labelledby="confirmation-title">
-                          <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>درخواستت به تیم روکسانا رسید</h3>
-                          <p>برای هماهنگی مشاوره از راه ارتباطی‌ای که انتخاب کردی باهات تماس می‌گیریم.</p>
+                          <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>درخواستت برای ارسال ثبت شد</h3>
+                          <p>
+                            {status === 'submitted'
+                              ? 'درخواست به بله فرستاده شد، اما مرورگر امکان تأیید دریافت پیام را نمی‌دهد. برای هماهنگی مشاوره باهات تماس می‌گیریم.'
+                              : 'وضعیت ارسال مشخص نیست و ممکنه پیام رسیده باشه. برای جلوگیری از پیام تکراری، دوباره ارسال نکن.'}
+                          </p>
                         </section>
                       ) : (
                         <form onSubmit={sendContact} noValidate aria-busy={isSending}>
