@@ -172,9 +172,8 @@ export default function App() {
             </div>
             <p className="small">نمایش فوری BMI · ارزیابی اولیه</p>
           </div>
-          <figure className="poster" aria-label="لوگوی رکسانا، سبک زندگی و تناسب اندام">
-            <div className="poster-grid" aria-hidden="true"></div>
-            <img className="poster-art" src="/roxana-logo.png" alt="Roxana Lifestyle and Fitness" />
+          <figure className="poster" aria-label="رکسانا، سبک زندگی و تناسب اندام">
+            <img className="poster-art" src="/roxana-portrait-reference-botanical.png" alt="رکسانا با لباس ورزشی فیروزه‌ای در کنار موج‌ها و برگ‌های آبی" fetchPriority="high" />
           </figure>
         </section>
 
@@ -265,7 +264,7 @@ export default function App() {
                   {/* <p className="form-kicker">مرحله ۲ از ۲</p> */}
                   <h3 id="result-title" tabIndex={-1} ref={resultHeading}>نتیجه ارزیابی اولیه</h3>
                   <div className="result-box" data-pass={String(result.inRange)}>
-                    <div className="result-metric">شاخص توده بدنی تو <strong>{result.display}</strong></div>
+                    <div className="result-metric">شاخص توده بدنی تو <strong className={result.bmi > 30 ? 'bmi-high' : undefined}>{result.display}</strong></div>
                     <p id="result-message">
                       {result.inRange
                         ? 'BMI تو به آستانه بررسی اولیه آمپول کاهش وزن می‌رسه.'
