@@ -8,12 +8,22 @@ const config = { token: '123456:test_token', chatIds: ['123', '456'] };
 const answers = Object.fromEntries(questions.filter((question) => !question.optional).map((question) => [question.id, question.options?.[0] || 'ندارم']));
 Object.assign(answers, { name: 'نمونه آزمایشی', age: '۶۱', height: '١٧٦', weight: '۸۰٫۵', contact: '۰۹۱۲۳۴۵۶۷۸۹' });
 
-test('all 23 questions are ordered; only photos are optional', () => {
+test('all 23 questions remain available; only the first section is required', () => {
   assert.equal(questions.length, 23);
-  assert.deepEqual(questions.filter((question) => question.optional).map((question) => question.id), ['photos']);
+  assert.deepEqual(questions.filter((question) => !question.optional).map((question) => question.id), ['name', 'age', 'gender', 'height', 'weight', 'contact']);
+  assert.ok(questions.filter((question) => question.section > 0).every((question) => question.optional));
   assert.deepEqual(validateAnswers(answers), {});
-  assert.equal(Object.keys(validateAnswers({})).length, 22);
+  assert.equal(Object.keys(validateAnswers({})).length, 6);
   assert.equal(Object.keys(validateAnswers({}, 0)).length, 6);
+});
+
+test('later sections accept missing or blank answers, but validate answers when provided', () => {
+  for (const section of [1, 2, 3]) {
+    assert.deepEqual(validateAnswers({}, section), {});
+  }
+  const blanks = Object.fromEntries(questions.filter((question) => question.optional).map((question) => [question.id, '   ']));
+  assert.deepEqual(validateAnswers({ ...answers, ...blanks }), {});
+  assert.deepEqual(Object.keys(validateAnswers({ ...answers, location: 'invalid', occupation: 'x'.repeat(1801) })), ['occupation', 'location']);
 });
 
 test('Persian/Arabic numerals, decimal measurements, contact and invalid boundaries', () => {
@@ -78,7 +88,7 @@ test('network uncertainty stops that recipient without automatic retries', async
   await assert.rejects(sendQuestionnaire({ config: { token: '', chatIds: [] }, answers, photos: {}, reference: 'RX-test', fetchImpl: async () => assert.fail('must not send') }), /not_configured/);
 });
 
-test('Vercel permits Bale and photo previews only on the questionnaire route', async () => {
+test('Vercel permits Bale on form routes and photo previews only on the questionnaire route', async () => {
   const settings = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
   const mainRule = settings.headers[0];
   const pattern = new RegExp(`^${mainRule.source}$`);
@@ -86,8 +96,13 @@ test('Vercel permits Bale and photo previews only on the questionnaire route', a
   assert.ok(pattern.test('/assets/main.js'));
   assert.equal(pattern.test('/questionnaire/'), false);
   assert.equal(pattern.test('/questionnaire/index.html'), false);
+  assert.equal(pattern.test('/assessment/'), false);
+  assert.equal(pattern.test('/assessment/index.html'), false);
   assert.ok(!mainRule.headers[0].value.includes('tapi.bale.ai'));
   const policy = settings.headers[1].headers[0].value;
   assert.ok(policy.includes("connect-src 'self' https://tapi.bale.ai"));
   assert.ok(policy.includes("img-src 'self' blob:"));
+  const assessmentRule = settings.headers.find((rule) => rule.source === '/assessment/:path*');
+  assert.ok(assessmentRule.headers[0].value.includes("connect-src 'self' https://tapi.bale.ai"));
+  assert.ok(!assessmentRule.headers[0].value.includes('blob:'));
 });

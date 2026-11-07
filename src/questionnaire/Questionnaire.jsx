@@ -43,6 +43,7 @@ export default function Questionnaire() {
   const sending = useRef(false);
   const heading = useRef(null);
   const moved = useRef(false);
+  const errorToFocus = useRef(null);
   const finished = status === 'submitted' || status === 'unknown';
   const busy = status === 'sending';
   const reviewing = step === sections.length;
@@ -57,7 +58,9 @@ export default function Questionnaire() {
   }, [step, finished]);
 
   useEffect(() => {
-    const first = Object.keys(errors).find((id) => questions.find((question) => question.id === id)?.section === step);
+    // Only a failed submission requests focus; clearing errors while typing must not move it.
+    const first = errorToFocus.current;
+    errorToFocus.current = null;
     if (first) document.getElementById(`q-${first}`)?.focus();
   }, [errors, step]);
 
@@ -100,6 +103,7 @@ export default function Questionnaire() {
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
       const first = questions.find((question) => nextErrors[question.id]);
+      errorToFocus.current = first.id;
       moved.current = true;
       setStep(first.section);
       return;
@@ -183,8 +187,8 @@ export default function Questionnaire() {
         <p className="q-eyebrow"><span /> یه شروع، برای خودت</p>
         <h1>برنامهٔ تو،<br /> از <em>شناخت تو</em><br className="q-desktop-break" /> شروع می‌شه.</h1>
         <p className="q-lead">چند دقیقه برای خودت وقت بذار. از هدفت، حال بدنت و عادت‌هات بگو تا مسیرمون رو با شناخت بیشتری شروع کنیم.</p>
-        <div className="q-aside-note"><span className="q-note-icon" aria-hidden="true">✦</span><p>اینجا جواب درست و غلط نداریم؛<br />فقط خودت باش و راحت بنویس.</p></div>
-        <div className="q-meta"><span>۲۳ سؤال</span><span>عکس‌ها اختیاری</span></div>
+        <div className="q-aside-note"><span className="q-note-icon" dir="ltr" aria-hidden="true">{'}'}</span><p>اینجا جواب درست و غلط نداریم؛<br />فقط خودت باش و راحت بنویس.</p></div>
+        <div className="q-meta"><span>۲۳ سؤال</span><span>فقط بخش اول اجباریه</span></div>
         <p className="q-aside-footer">قدم‌های کوچیک، تغییرهای موندگار.</p>
       </aside>
       <div className="q-panel">
@@ -203,7 +207,7 @@ export default function Questionnaire() {
           </li>)}</ol></nav>
           <div className="q-progress-row"><span>{reviewing ? 'یک نگاه آخر، بعد ارسال' : `مرحله ${fa(step + 1)} از ۴`}</span><span>{fa(answered)} از ۲۳ پاسخ</span></div>
           <div className="q-progress" role="progressbar" aria-label="پاسخ‌های واردشده" aria-valuemin={0} aria-valuemax={23} aria-valuenow={answered}><span style={{ width: `${answered / 23 * 100}%` }} /></div>
-          <div className="q-section-intro"><h2 id="q-title" ref={heading} tabIndex={-1}>{reviewing ? 'همه‌چیز درسته؟' : sections[step].title}</h2><p>{reviewing ? 'جواب‌هات رو یک بار مرور کن. هر جا خواستی می‌تونی برگردی و ویرایش کنی.' : sections[step].description}</p></div>
+          <div className="q-section-intro"><h2 id="q-title" ref={heading} tabIndex={-1}>{reviewing ? 'همه‌چیز درسته؟' : sections[step].title}</h2><p>{reviewing ? 'جواب‌هات رو یک بار مرور کن. هر جا خواستی می‌تونی برگردی و ویرایش کنی.' : sections[step].description}{!reviewing && step > 0 && ' پاسخ به سؤال‌های این بخش اختیاریه؛ می‌تونی خالی بذاری و ادامه بدی.'}</p></div>
           <form onSubmit={submit} noValidate aria-busy={busy}>
             <fieldset className="q-fields" disabled={busy} aria-label={reviewing ? 'مرور پاسخ‌ها' : sections[step].title}>
               {reviewing ? <Answers answers={answers} photos={photos} onEdit={goTo} /> : currentQuestions.map(renderQuestion)}

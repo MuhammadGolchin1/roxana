@@ -70,19 +70,27 @@ section[id], #result-title, #confirmation-title { scroll-margin-top: 24px; }
 .hero h1 { font-size: clamp(35px, 4.15vw, 61px); margin-block: 13px 16px; letter-spacing: -.032em; }
 .hero h1 span { display: block; color: var(--ink); }
 .hero-copy > p:not(.eyebrow) { color: var(--muted); max-width: 46ch; line-height: 2.05; }
-.hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 13px; margin-block: 24px 11px; }
 .small { font-size: 13px; color: var(--muted); }
 .poster { position: relative; overflow: hidden; margin: 0; min-height: 0; aspect-ratio: 1.21; background: transparent; }
 .poster-art { position: absolute; width: 100%; height: 100%; inset: 50% auto auto 50%; transform: translate(-50%, -50%); object-fit: contain; object-position: center; }
-.topics { padding-block: 0 66px; }
+.topics { padding-block: 36px 40px; background: var(--surface); }
 .section-heading { margin-bottom: 22px; }
-.section-heading h2, .assessment-aside h2 { font-size: clamp(26px, 3vw, 38px); margin-block: 6px 0; }
+.section-heading h2, .assessment-aside h1 { font-size: clamp(26px, 3vw, 38px); margin-block: 6px 0; }
 .topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.topic { min-width: 0; min-height: 160px; display: grid; grid-template-columns: 44px 1fr; gap: 13px; align-content: start; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.topic { min-width: 0; min-height: 160px; display: grid; grid-template-columns: 44px 1fr; gap: 13px; align-content: start; padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
 .topic-icon { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); }
 .topic-icon svg { width: 23px; height: 23px; }
 .topic h3 { font-size: 17px; margin-block: 3px 5px; }
 .topic p { color: var(--muted); font-size: 14px; }
+.services { padding-block: 40px 48px; }
+.services > h2 { margin-bottom: 24px; text-align: center; font-size: clamp(24px, 3vw, 32px); }
+.service-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 880px; margin-inline: auto; }
+.service-card { min-width: 0; min-height: 150px; display: grid; grid-template-columns: 32px minmax(0, 1fr); align-content: start; gap: 16px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); color: var(--ink); }
+.service-card:hover { background: var(--surface); border-color: var(--primary); }
+.service-icon { display: grid; place-items: center; width: 32px; height: 32px; color: var(--cta-hover); flex: none; }
+.service-icon svg { width: 100%; height: 100%; }
+.service-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.service-card p { color: var(--muted); font-size: 14px; }
 .assessment { background: #E6F4F7; border-block: 1px solid var(--line); padding-block: 62px 68px; }
 .assessment-grid { display: grid; grid-template-columns: minmax(0, .69fr) minmax(0, 1.31fr); gap: clamp(24px, 6.1vw, 82px); align-items: start; }
 .assessment-aside { padding-block: 9px; }
@@ -151,8 +159,10 @@ textarea { display: block; resize: vertical; min-height: 67px; font-size: 14px; 
   .hero, .assessment-grid { grid-template-columns: 1fr; }
   .hero { padding-block: 35px 40px; gap: 24px; }
   .hero h1 { margin-block: 9px 12px; }
-  .hero-actions { margin-block: 18px 8px; }
-  .topics { padding-bottom: 40px; }
+  .topics { padding-block: 28px 32px; }
+  .services { padding-block: 32px 36px; }
+  .service-grid { gap: 12px; }
+  .service-card { padding: 18px; gap: 12px; }
   .topic-grid { grid-template-columns: 1fr; gap: 9px; }
   .topic { min-height: 0; grid-template-columns: 40px 1fr; gap: 11px; padding: 14px; }
   .topic-icon { width: 40px; height: 40px; }
@@ -163,10 +173,14 @@ textarea { display: block; resize: vertical; min-height: 67px; font-size: 14px; 
   .steps { margin-top: 12px; grid-template-columns: 1fr 1fr; gap: 7px; }
   .clinical-note { margin-top: 14px; }
 }
+@media (max-width: 560px) {
+  .service-grid { grid-template-columns: 1fr; }
+  .service-card { min-height: 0; }
+}
 @media (max-width: 375px) {
   .field-grid { grid-template-columns: 1fr; gap: 9px; }
   .steps { grid-template-columns: 1fr; }
-  .hero-actions .button, .form-actions > .button { width: 100%; }
+  .form-actions > .button { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 button:disabled { cursor: wait; opacity: .68; }

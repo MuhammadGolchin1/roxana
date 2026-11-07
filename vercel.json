@@ -5,7 +5,7 @@
   },
   "headers": [
     {
-      "source": "/((?!questionnaire(?:/|$)).*)",
+      "source": "/((?!(?:questionnaire|assessment)(?:/|$)).*)",
       "headers": [
         { "key": "Content-Security-Policy", "value": "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" },
         { "key": "Referrer-Policy", "value": "no-referrer" },
@@ -16,6 +16,14 @@
       "source": "/questionnaire/:path*",
       "headers": [
         { "key": "Content-Security-Policy", "value": "default-src 'self'; connect-src 'self' https://tapi.bale.ai; img-src 'self' blob:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/assessment/:path*",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; connect-src 'self' https://tapi.bale.ai; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" },
         { "key": "Referrer-Policy", "value": "no-referrer" },
         { "key": "X-Content-Type-Options", "value": "nosniff" }
       ]

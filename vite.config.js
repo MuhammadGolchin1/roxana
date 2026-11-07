@@ -61,7 +61,11 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       rollupOptions: {
-        input: { main: 'index.html', questionnaire: 'questionnaire/index.html' },
+        input: {
+          main: 'index.html',
+          assessment: 'assessment/index.html',
+          questionnaire: 'questionnaire/index.html',
+        },
       },
     },
     define: {

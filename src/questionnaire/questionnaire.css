@@ -29,7 +29,7 @@ legend { padding: 0; }
 .q-aside h1 em { font-style: normal; color: #128b96; }
 .q-lead { max-width: 300px; margin-top: 20px; color: #5c777b; font-size: 14px; line-height: 2.2; }
 .q-aside-note { display: flex; gap: 12px; align-items: center; margin-block: 32px 26px; font-size: 12px; color: #4b7174; }
-.q-note-icon { font-size: 36px; line-height: 1; color: #76ada2; }
+.q-note-icon { flex: none; font-family: Georgia, 'Times New Roman', serif; font-size: 56px; line-height: .9; color: #76ada2; unicode-bidi: isolate; }
 .q-meta { display: flex; flex-wrap: wrap; gap: 8px; }
 .q-meta span { font-size: 11px; padding: 4px 11px; background: #e7f1ee; border-radius: 6px; color: #496f6c; }
 .q-aside-footer { margin-top: 64px; border-top: 1px solid #dce8e6; padding-top: 18px; font-size: 11px; color: #6f8886; }
