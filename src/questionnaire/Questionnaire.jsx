@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import SiteFooter from '../components/SiteFooter.jsx';
 import { answerText, photoSlots, questions, sections, validateAnswers, validatePhoto } from '../../lib/questionnaire.js';
 import { sendQuestionnaire, validBaleConfig } from '../../lib/questionnaire-delivery.js';
 
@@ -224,6 +225,6 @@ export default function Questionnaire() {
         </>}
       </div>
     </main>
-    <footer className="q-container q-footer"><span>رکسانا · حرکت، تغذیه، حال خوب</span><a href="/">صفحه اصلی <Arrow /></a></footer>
+    <SiteFooter />
   </div>;
 }

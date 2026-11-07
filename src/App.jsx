@@ -1,18 +1,19 @@
 import React from 'react';
 import SiteLayout from './components/SiteLayout.jsx';
+import HeroVideo from './components/HeroVideo.jsx';
 
 export default function App() {
   return (
-    <SiteLayout>
-      <section className="wrap hero" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <p className="eyebrow">رکسانا · سبک زندگی و تناسب اندام</p>
-          <h1 id="hero-title">نسخه بهتری از خودت رو زندگی کن!</h1>
-          <p>توی پیج اینستاگرام رکسانا، تمرین‌های کوتاه در خانه، غذاهای ساده و سالم و آموزش حرکات اصلاحی رو پیدا می‌کنی. اگر می‌خوای بدونی از نظر BMI در محدوده بررسی آمپول کاهش وزن هستی، از ارزیابی اولیه شروع کن.</p>
+    <SiteLayout home>
+      <section className="hero hero--video" aria-labelledby="hero-title">
+        <HeroVideo />
+        <div className="wrap">
+          <div className="hero-copy">
+            <p className="eyebrow">رکسانا · سبک زندگی و تناسب اندام</p>
+            <h1 id="hero-title">نسخه بهتری از خودت رو زندگی کن!</h1>
+            <p>توی پیج اینستاگرام رکسانا، تمرین‌های کوتاه در خانه، غذاهای ساده و سالم و آموزش حرکات اصلاحی رو پیدا می‌کنی. اگر می‌خوای بدونی از نظر BMI در محدوده بررسی آمپول کاهش وزن هستی، از ارزیابی اولیه شروع کن.</p>
+          </div>
         </div>
-        <figure className="poster" aria-label="رکسانا، سبک زندگی و تناسب اندام">
-          <img className="poster-art" src="/roxana-portrait-reference-botanical.png" alt="رکسانا با لباس ورزشی فیروزه‌ای در کنار موج‌ها و برگ‌های آبی" fetchPriority="high" />
-        </figure>
       </section>
 
       <section className="topics" id="about" aria-labelledby="about-title">

@@ -98,9 +98,6 @@ legend { padding: 0; }
 .q-reference { overflow-wrap: anywhere; padding: 15px 0; font-size: 11px !important; }
 .q-sent-answers { border-top: 1px solid #dce8e0; padding-top: 15px; }
 .q-sent-answers summary { cursor: pointer; color: #147e89; font-size: 13px; margin-bottom: 18px; }
-.q-footer { border-top: 1px solid #dce8e6; padding-block: 20px 25px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 11px; color: #718985; }
-.q-footer a { display: flex; align-items: center; gap: 8px; }
-.q-footer a:hover { color: #147e89; }
 .q-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .q-skip { position: absolute; top: 8px; right: 12px; transform: translateY(-150%); background: #fff; color: #147e89; padding: 8px 16px; z-index: 2; }
 .q-skip:focus { transform: none; }
@@ -135,6 +132,5 @@ legend { padding: 0; }
   .q-label { font-size: 12px; gap: 7px; }
   .q-choice { padding-inline: 11px; font-size: 11px; }
   .q-button { padding-inline: 18px; font-size: 12px; gap: 16px; }
-  .q-footer { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
