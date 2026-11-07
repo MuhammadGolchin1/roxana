@@ -157,7 +157,7 @@ export default function App() {
             <span className="brand-name">رکسانا</span>
           </a>
           <div className="nav-links"><a href="#about">معرفی رکسانا</a><a href="#assessment">ارزیابی وزن</a></div>
-          <a className="button secondary" href="#assessment">شروع ارزیابی</a>
+          <a className="button secondary" href="/questionnaire/">شروع فرم کوچ شخصی</a>
         </nav>
       </header>
 
@@ -169,6 +169,7 @@ export default function App() {
             <p>توی پیج اینستاگرام رکسانا، تمرین‌های کوتاه در خانه، غذاهای ساده و سالم و آموزش حرکات اصلاحی رو پیدا می‌کنی. اگر می‌خوای بدونی از نظر BMI در محدوده بررسی آمپول کاهش وزن هستی، از ارزیابی اولیه شروع کن.</p>
             <div className="hero-actions">
               <a className="button" href="#assessment">ارزیابی اولیه برای آمپول لاغری <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a>
+              <a className="button secondary" href="/questionnaire/">پر کردن فرم کوچ شخصی سلامتی <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a>
             </div>
             <p className="small">نمایش فوری BMI · ارزیابی اولیه</p>
           </div>

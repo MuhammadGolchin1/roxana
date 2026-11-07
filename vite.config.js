@@ -59,6 +59,11 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    build: {
+      rollupOptions: {
+        input: { main: 'index.html', questionnaire: 'questionnaire/index.html' },
+      },
+    },
     define: {
       'import.meta.env.VITE_BALE_BOT_TOKEN': JSON.stringify(env.VITE_BALE_BOT_TOKEN || env.BALE_BOT_TOKEN || ''),
       'import.meta.env.VITE_BALE_CHAT_ID': JSON.stringify(env.VITE_BALE_CHAT_ID || env.BALE_CHAT_ID || ''),
