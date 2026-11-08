@@ -84,7 +84,10 @@ section[id], #result-title, #confirmation-title { scroll-margin-top: 24px; }
 }
 
 .hero-video { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.hero-video video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .28; }
+.hero-video__media { position: absolute; inset: 0; opacity: .28; }
+.hero-video img, .hero-video video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.hero-video video { opacity: 0; transition: opacity 200ms ease; }
+.hero-video[data-playing="true"] video { opacity: 1; }
 .hero-video::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, #f0f9fa99); }
 .small { font-size: 13px; color: var(--muted); }
 .topics { padding-block: 36px 40px; background: var(--surface); }
