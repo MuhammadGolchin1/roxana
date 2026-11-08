@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
+    base: '/roxana/',
     build: {
       rollupOptions: {
         input: {
