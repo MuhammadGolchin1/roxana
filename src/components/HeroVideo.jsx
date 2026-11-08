@@ -4,7 +4,7 @@ export default function HeroVideo() {
   return (
     <div className="hero-video" aria-hidden="true">
       <video
-        src="/roxana-hero-background.mp4"
+        src={import.meta.env.BASE_URL + "roxana-hero-background.mp4"}
         autoPlay
         muted
         loop

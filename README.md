@@ -13,6 +13,18 @@ npm run dev
 
 آدرس چاپ‌شده در ترمینال را باز کن. برای فعال‌کردن ارسال، مقدارهای معتبر `BALE_BOT_TOKEN`، `BALE_CHAT_ID` و `BALE_CHAT_ID2` را در `.env.local` قرار بده. می‌توانی از `.env.example` به‌عنوان الگو استفاده کنی.
 
+## انتشار روی GitHub Pages از شاخه main
+
+فایل `.github/workflows/deploy.yml` با هر push روی `main`، پروژه را با `npm ci` و `npm run build` می‌سازد و فقط خروجی `dist` را روی GitHub Pages منتشر می‌کند.
+
+1. در تنظیمات مخزن، بخش **Settings → Pages → Build and deployment → Source** را روی **GitHub Actions** قرار بده.
+2. فایل workflow و تغییرات پروژه را روی `main` commit و push کن.
+3. وضعیت انتشار را در تب **Actions** و اجرای **Deploy main to GitHub Pages** ببین. امکان اجرای دستی از **Run workflow** هم وجود دارد.
+
+برای فعال‌کردن ارسال فرم‌ها، مقدارهای `BALE_BOT_TOKEN`، `BALE_CHAT_ID` و `BALE_CHAT_ID2` را در **Settings → Secrets and variables → Actions** به‌عنوان repository secret تنظیم کن. این مقدارها طبق پیاده‌سازی فعلی هنگام build داخل JavaScript عمومی قرار می‌گیرند؛ secret بودن تنظیمات GitHub، آن‌ها را در خروجی سایت مخفی نمی‌کند.
+
+مقدار `base` برای آدرس این مخزن در `vite.config.js` برابر `/roxana/` است. در این روش نیازی به اجرای `npm run deploy` یا انتشار از شاخه `gh-pages` نیست.
+
 ## انتشار روی IIS
 
 1. پیش از ساخت، مقدارهای بله را در `.env.local` یا متغیرهای محیطی سیستم تنظیم کن. شناسه‌های چت باید عددی و متفاوت باشند.

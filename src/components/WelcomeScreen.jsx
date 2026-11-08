@@ -28,7 +28,7 @@ export default function WelcomeScreen({ children }) {
               <span className="welcome-screen__halo" />
               <svg className="welcome-screen__logo" viewBox="192 64 912 1176" fill="none">
                 {/* Frame the text-free symbol with a small transparent margin. */}
-                <image href="/roxana-logo.png" width="1254" height="1254" />
+                <image href={import.meta.env.BASE_URL + "roxana-logo.png"} width="1254" height="1254" />
               </svg>
             </div>
             <p className="welcome-screen__message">حال خوبت از اینجا شروع می‌شه</p>

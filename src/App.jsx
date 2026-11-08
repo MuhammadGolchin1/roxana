@@ -42,7 +42,7 @@ export default function App() {
       <section className="wrap services" id="start" aria-labelledby="services-title">
         <h2 id="services-title">از کجا شروع کنم ؟</h2>
         <div className="service-grid">
-          <a className="service-card" href="/assessment/" aria-labelledby="assessment-link-title">
+          <a className="service-card" href={import.meta.env.BASE_URL + "assessment/"} aria-labelledby="assessment-link-title">
             <span className="service-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 7h8m-8 5h2m4 0h2m-8 4h2m4 0h2"/></svg>
             </span>
@@ -51,7 +51,7 @@ export default function App() {
               <p>با وارد کردن قد و وزن، BMI خودت رو ببین و ارزیابی اولیه برای بررسی آمپول لاغری رو انجام بده و از پزشکان و متخصصان مشورت بگیر.</p>
             </div>
           </a>
-          <a className="service-card" href="/questionnaire/" aria-labelledby="coaching-link-title">
+          <a className="service-card" href={import.meta.env.BASE_URL + "questionnaire/"} aria-labelledby="coaching-link-title">
             <span className="service-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/><path d="M4 12h4l2-4 4 8 2-4h4"/></svg>
             </span>

@@ -22,8 +22,8 @@ export default function SiteFooter() {
       <div className="site-footer__inner">
         <div className="site-footer__grid">
           <div className="site-footer__intro">
-            <a className="site-footer__brand" href="/" aria-label="رکسانا، صفحه اصلی">
-              <img src="/roxana-logo.png" width="64" height="64" alt="" />
+            <a className="site-footer__brand" href={import.meta.env.BASE_URL} aria-label="رکسانا، صفحه اصلی">
+              <img src={import.meta.env.BASE_URL + "roxana-logo.png"} width="64" height="64" alt="" />
               <span><strong>رکسانا</strong><span>سبک زندگی و تناسب اندام</span></span>
             </a>
             <p className="site-footer__tagline">حال خوبت از اینجا شروع می‌شه</p>
@@ -33,7 +33,7 @@ export default function SiteFooter() {
             <h2 className="site-footer__heading">همراه رکسانا</h2>
             <ul>
               {informationPages.filter(({ slug }) => slug !== 'contact').map(({ slug, title }) => (
-                <li key={slug}><a href={`/${slug}/`}>{title}</a></li>
+                <li key={slug}><a href={`${import.meta.env.BASE_URL}${slug}/`}>{title}</a></li>
               ))}
             </ul>
           </nav>
@@ -48,7 +48,7 @@ export default function SiteFooter() {
               {socialNetworks.map(({ name, icon, href }) => (
                 <li key={icon}>
                   <a className="site-footer__social" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${name} رکسانا (در پنجره جدید)`}>
-                    <img src={`/social/${icon}`} width="32" height="32" alt="" loading="lazy" decoding="async" />
+                    <img src={`${import.meta.env.BASE_URL}social/${icon}`} width="32" height="32" alt="" loading="lazy" decoding="async" />
                   </a>
                 </li>
               ))}

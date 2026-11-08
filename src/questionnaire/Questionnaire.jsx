@@ -180,7 +180,7 @@ export default function Questionnaire() {
   return <div className="q-page">
     <a className="q-skip" href="#questionnaire">رفتن به پرسشنامه</a>
     <header className="q-header"><div className="q-container q-header-inner">
-      <a className="q-brand" href="/" aria-label="صفحه اصلی رکسانا"><img src="/roxana-logo.png" alt="" /><span>رکسانا<small>همراه تو، برای حال بهتر</small></span></a>
+      <a className="q-brand" href={import.meta.env.BASE_URL} aria-label="صفحه اصلی رکسانا"><img src={import.meta.env.BASE_URL + "roxana-logo.png"} alt="" /><span>رکسانا<small>همراه تو، برای حال بهتر</small></span></a>
       <span className="q-header-label">پرسشنامه شروع همراهی</span>
     </div></header>
     <main className="q-container q-layout" id="questionnaire">

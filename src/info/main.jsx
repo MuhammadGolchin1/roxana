@@ -7,7 +7,8 @@ import Privacy from './Privacy.jsx';
 import '../styles.css';
 import './pages.css';
 
-const slug = window.location.pathname.split('/').filter(Boolean)[0];
+const pathname = window.location.pathname.slice(import.meta.env.BASE_URL.length);
+const slug = pathname.split('/').filter(Boolean)[0];
 const page = informationPages.find((item) => item.slug === slug);
 const pageClass = { faq: 'faq-page', privacy: 'privacy-page' }[slug] || '';
 
