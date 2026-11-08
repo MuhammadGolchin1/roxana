@@ -21,7 +21,7 @@ npm run dev
 2. فایل workflow و تغییرات پروژه را روی `main` commit و push کن.
 3. وضعیت انتشار را در تب **Actions** و اجرای **Deploy main to GitHub Pages** ببین. امکان اجرای دستی از **Run workflow** هم وجود دارد.
 
-برای فعال‌کردن ارسال فرم‌ها، مقدارهای `BALE_BOT_TOKEN`، `BALE_CHAT_ID` و `BALE_CHAT_ID2` را در **Settings → Secrets and variables → Actions** به‌عنوان repository secret تنظیم کن. این مقدارها طبق پیاده‌سازی فعلی هنگام build داخل JavaScript عمومی قرار می‌گیرند؛ secret بودن تنظیمات GitHub، آن‌ها را در خروجی سایت مخفی نمی‌کند.
+برای فعال‌کردن ارسال فرم‌ها، مقدارهای `BALE_BOT_TOKEN`، `BALE_CHAT_ID` و `BALE_CHAT_ID2` را در **Settings → Secrets and variables → Actions** به‌عنوان repository secret تنظیم کن. مقدارهای غیرخالی Secrets بر فایل‌های محیطی اولویت دارند؛ Secret خالی مقدار موجود در فایل محیطی را پاک نمی‌کند. بیلد GitHub Actions در صورت نبود تنظیمات معتبر متوقف می‌شود تا نسخه‌ای با فرم غیرفعال منتشر نشود. شناسه‌های چت باید عددی و متفاوت باشند. این مقدارها طبق پیاده‌سازی فعلی هنگام build داخل JavaScript عمومی قرار می‌گیرند؛ secret بودن تنظیمات GitHub، آن‌ها را در خروجی سایت مخفی نمی‌کند.
 
 مقدار `base` برای آدرس این مخزن در `vite.config.js` برابر `/roxana/` است. در این روش نیازی به اجرای `npm run deploy` یا انتشار از شاخه `gh-pages` نیست.
 

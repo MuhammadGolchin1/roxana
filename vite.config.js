@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { defineConfig, loadEnv } from 'vite';
 import { POST } from './api/contact.js';
+import { validBaleConfig } from './lib/questionnaire-delivery.js';
 
 function localContactApi() {
   return {
@@ -52,9 +53,23 @@ function localContactApi() {
   };
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
+  const baleNames = ['BALE_BOT_TOKEN', 'BALE_CHAT_ID', 'BALE_CHAT_ID2'];
+  // Missing GitHub secrets are empty strings, which would mask .env.local.
+  for (const name of baleNames.flatMap((name) => [name, `VITE_${name}`])) {
+    if (process.env[name] !== undefined && !process.env[name].trim()) {
+      delete process.env[name];
+    }
+  }
   const env = loadEnv(mode, process.cwd(), '');
-  for (const name of ['BALE_BOT_TOKEN', 'BALE_CHAT_ID', 'BALE_CHAT_ID2']) {
+  const [token, chatId, chatId2] = baleNames.map((name) => (
+    env[`VITE_${name}`]?.trim() || env[name]?.trim() || ''
+  ));
+  if (command === 'build' && process.env.GITHUB_ACTIONS === 'true' &&
+      !validBaleConfig({ token, chatIds: [chatId, chatId2] })) {
+    throw new Error('Bale configuration is missing or invalid. Set BALE_BOT_TOKEN, BALE_CHAT_ID and BALE_CHAT_ID2 in GitHub Actions repository secrets. Chat IDs must be numeric and different.');
+  }
+  for (const name of baleNames) {
     if (!process.env[name] && env[name]) process.env[name] = env[name];
   }
 
@@ -74,9 +89,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      'import.meta.env.VITE_BALE_BOT_TOKEN': JSON.stringify(env.VITE_BALE_BOT_TOKEN || env.BALE_BOT_TOKEN || ''),
-      'import.meta.env.VITE_BALE_CHAT_ID': JSON.stringify(env.VITE_BALE_CHAT_ID || env.BALE_CHAT_ID || ''),
-      'import.meta.env.VITE_BALE_CHAT_ID2': JSON.stringify(env.VITE_BALE_CHAT_ID2 || env.BALE_CHAT_ID2 || ''),
+      'import.meta.env.VITE_BALE_BOT_TOKEN': JSON.stringify(token),
+      'import.meta.env.VITE_BALE_CHAT_ID': JSON.stringify(chatId),
+      'import.meta.env.VITE_BALE_CHAT_ID2': JSON.stringify(chatId2),
     },
     plugins: [localContactApi()],
   };
