@@ -4,13 +4,23 @@ export default function About() {
   return (
     <div className="about-content">
       <div className="about-intro">
-        <p className="eyebrow">همراه هوشمند شما در مسیر سلامتی</p>
-        <h2>رکسانا؛ همراهی هوشمند، با پشتوانه یک تیم متخصص</h2>
-        <p>
-          رکسانا یک همراه و کاراکتر هوش مصنوعی است که پشت آن، یک تیم متخصص حضور دارد.
-          ما در رکسانا، دانش تخصصی و فناوری را کنار هم قرار داده‌ایم تا مسیر سلامت،
-          تناسب اندام، تغذیه و اصلاح سبک زندگی برای شما ساده‌تر و متناسب با نیازهایتان باشد.
-        </p>
+        <div className="about-intro__copy">
+          <p className="eyebrow">همراه هوشمند شما در مسیر سلامتی</p>
+          <h2>رکسانا؛ همراهی هوشمند، با پشتوانه یک تیم متخصص</h2>
+          <p>
+            رکسانا یک همراه و کاراکتر هوش مصنوعی است که پشت آن، یک تیم متخصص حضور دارد.
+            ما در رکسانا، دانش تخصصی و فناوری را کنار هم قرار داده‌ایم تا مسیر سلامت،
+            تناسب اندام، تغذیه و اصلاح سبک زندگی برای شما ساده‌تر و متناسب با نیازهایتان باشد.
+          </p>
+        </div>
+        <img
+          className="about-intro__portrait"
+          src={import.meta.env.BASE_URL + 'roxana-portrait-reference-botanical.png'}
+          alt="رکسانا، کاراکتر هوش مصنوعی با لباس ورزشی فیروزه‌ای و برگ‌های تزئینی"
+          width="1383"
+          height="1137"
+          decoding="async"
+        />
       </div>
 
       <section className="about-section" aria-labelledby="about-team-title">
