@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function HeroVideo() {
   const [posterReady, setPosterReady] = useState(false);
   const [loadVideo, setLoadVideo] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
-  const video = useRef(null);
   const poster = `${import.meta.env.BASE_URL}roxana-hero-poster.webp`;
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function HeroVideo() {
   }, [posterReady]);
 
   return (
-    <><div className="hero-video" aria-hidden="true" data-playing={playing}>
+    <div className="hero-video" aria-hidden="true" data-playing={playing}>
       <div className="hero-video__media">
         <img
           src={poster}
@@ -51,8 +50,6 @@ export default function HeroVideo() {
         />
         {loadVideo && !failed && (
           <video
-            ref={video}
-            id="hero-background-video"
             src={`${import.meta.env.BASE_URL}roxana-hero-background.mp4`}
             poster={poster}
             width="1920"
@@ -70,10 +67,5 @@ export default function HeroVideo() {
         )}
       </div>
     </div>
-    {loadVideo && !failed && <button className="hero-video__toggle" type="button" aria-controls="hero-background-video" onClick={() => {
-      if (video.current?.paused) video.current.play().catch(() => setFailed(true));
-      else video.current?.pause();
-    }}>{playing ? 'توقف ویدئوی پس‌زمینه' : 'پخش ویدئوی پس‌زمینه'}</button>}
-    </>
   );
 }

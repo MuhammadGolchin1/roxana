@@ -86,7 +86,7 @@ test('single-selection replaces the previous choice and clears deselected other 
   const question = questions.find((question) => question.id === 'location');
   const value = toggleOption(question, { selected: [OTHER_OPTION], other: 'پارک' }, 'باشگاه');
   assert.deepEqual(value, { selected: ['باشگاه'], other: '', details: '' });
-  assert.ok(validateAnswers({ ...answers, location: { selected: ['باشگاه', 'خانه'] } }).location);
+  assert.ok(validateAnswers({ ...answers, location: { selected: ['باشگاه', 'خونه'] } }).location);
 });
 
 test('other text is required only when selected; invalid selections, duplicates and hidden details are rejected', () => {
@@ -97,7 +97,7 @@ test('other text is required only when selected; invalid selections, duplicates 
     { selected: [OTHER_OPTION], other: 42 }, { selected: [OTHER_OPTION], other: 'ت'.repeat(detailMaxLength + 1) }]) {
     assert.ok(validateAnswers({ ...answers, goal: value }).goal, JSON.stringify(value));
   }
-  assert.ok(validateAnswers({ ...answers, conditions: { selected: ['بیماری شناخته‌شده‌ای ندارم', 'دیابت یا پیش‌دیابت'] } }).conditions);
+  assert.ok(validateAnswers({ ...answers, conditions: { selected: ['تا جایی که می‌دونم بیماری خاصی ندارم', 'دیابت یا پیش‌دیابت'] } }).conditions);
 });
 
 test('compound choices validate and format each part without object coercion', () => {
@@ -144,7 +144,7 @@ test('direct browser delivery sends full text and multipart photos to both BMI d
   for (const id of config.chatIds) {
     const recipient = calls.filter((call) => call.body.get('chat_id') === id);
     assert.match(recipient[0].url, /\/sendMessage$/);
-    assert.match(recipient[0].body.get('text'), /عادت‌ها یا محدودیت‌های غذایی/);
+    assert.match(recipient[0].body.get('text'), /عادت یا محدودیت غذایی خاصی/);
     assert.match(recipient[1].url, /\/sendPhoto$/);
     assert.equal(recipient[1].body.get('photo').name, 'front.png');
     assert.ok(recipient[1].body.get('caption').includes('RX-test'));

@@ -26,7 +26,7 @@ export default function SiteFooter() {
               <img src={import.meta.env.BASE_URL + "roxana-logo.png"} width="64" height="64" alt="" />
               <span><strong>رکسانا</strong><span>سبک زندگی و تناسب اندام</span></span>
             </a>
-            <p className="site-footer__tagline">حال خوب شما از اینجا شروع می‌شود</p>
+            <p className="site-footer__tagline">حال خوبت از اینجا شروع می‌شه</p>
           </div>
 
           <nav className="site-footer__nav" aria-label="پیوندهای پایین صفحه">
@@ -57,8 +57,8 @@ export default function SiteFooter() {
         </div>
 
         <div className="site-footer__bottom">
-          <p>© رکسانا؛ تمامی حقوق محفوظ است.</p>
-          <a href="#top">بازگشت به بالای صفحه <span aria-hidden="true">↑</span></a>
+          <p>© همهٔ حقوق این سایت برای رکساناست.</p>
+          <a href="#top">برگرد بالای صفحه <span aria-hidden="true">↑</span></a>
         </div>
       </div>
     </footer>

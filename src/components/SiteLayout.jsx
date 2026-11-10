@@ -13,8 +13,8 @@ export default function SiteLayout({ children, assessment = false, home = false 
           </a>
           <div className="nav-links">
             <a className="nav-link--about" href={import.meta.env.BASE_URL + "#about"}>معرفی رکسانا</a>
-            <a href={import.meta.env.BASE_URL + "assessment/"} aria-current={assessment ? 'page' : undefined}>ارزیابی وزن</a>
-            <a href={import.meta.env.BASE_URL + "questionnaire/"}>ارزیابی سبک زندگی و دریافت برنامه</a>
+            <a href={import.meta.env.BASE_URL + "assessment/"} aria-current={assessment ? 'page' : undefined}>تست استفاده از آمپول‌های لاغری</a>
+            <a href={import.meta.env.BASE_URL + "questionnaire/"}>تا عید لاغر شو!</a>
           </div>
           <a className="button secondary" href={import.meta.env.BASE_URL + "#start"}>شروع ارزیابی</a>
         </nav>
