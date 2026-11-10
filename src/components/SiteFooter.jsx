@@ -22,14 +22,14 @@ export default function SiteFooter() {
       <div className="site-footer__inner">
         <div className="site-footer__grid">
           <div className="site-footer__intro">
-            <a className="site-footer__brand" href={import.meta.env.BASE_URL} aria-label="رکسانا، صفحه اصلی">
+            <a className="site-footer__brand" href={import.meta.env.BASE_URL} aria-label="رکسانا، صفحهٔ اصلی">
               <img src={import.meta.env.BASE_URL + "roxana-logo.png"} width="64" height="64" alt="" />
               <span><strong>رکسانا</strong><span>سبک زندگی و تناسب اندام</span></span>
             </a>
-            <p className="site-footer__tagline">حال خوبت از اینجا شروع می‌شه</p>
+            <p className="site-footer__tagline">حال خوب شما از اینجا شروع می‌شود</p>
           </div>
 
-          <nav className="site-footer__nav" aria-label="لینک‌های فوتر">
+          <nav className="site-footer__nav" aria-label="پیوندهای پایین صفحه">
             <h2 className="site-footer__heading">همراه رکسانا</h2>
             <ul>
               {informationPages.filter(({ slug }) => slug !== 'contact').map(({ slug, title }) => (
@@ -47,7 +47,7 @@ export default function SiteFooter() {
             <ul className="site-footer__socials" aria-label="شبکه‌های اجتماعی رکسانا">
               {socialNetworks.map(({ name, icon, href }) => (
                 <li key={icon}>
-                  <a className="site-footer__social" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${name} رکسانا (در پنجره جدید)`}>
+                  <a className="site-footer__social" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${name} رکسانا (در پنجرهٔ جدید)`}>
                     <img src={`${import.meta.env.BASE_URL}social/${icon}`} width="32" height="32" alt="" loading="lazy" decoding="async" />
                   </a>
                 </li>

@@ -4,7 +4,7 @@ import { assess, healthOptions, validateContact } from '../../lib/assessment.js'
 import SiteLayout from '../components/SiteLayout.jsx';
 
 const sendErrors = {
-  not_configured: 'تنظیمات ارسال به بله موقع ساخت سایت پیدا نشد. مقدارهای BALE را تنظیم و سایت را دوباره build کن.',
+  not_configured: 'در حال حاضر امکان ارسال درخواست فراهم نیست. لطفاً از راه‌های ارتباطی پایین صفحه با تیم رکسانا تماس بگیرید.',
 };
 
 export default function Assessment() {
@@ -41,8 +41,8 @@ export default function Assessment() {
     const weight = values.get('weight');
     const assessment = assess(height, weight);
     const errors = {};
-    if (assessment.invalidHeight) errors.height = 'قد رو بین ۷۰ و ۲۷۰ سانتی‌متر، با حداکثر دو رقم اعشار وارد کن.';
-    if (assessment.invalidWeight) errors.weight = 'وزن رو بین ۱۵ و ۶۵۰ کیلوگرم، با حداکثر دو رقم اعشار وارد کن.';
+    if (assessment.invalidHeight) errors.height = 'قد را بین ۷۰ و ۲۷۰ سانتی‌متر، با حداکثر دو رقم اعشار وارد کنید.';
+    if (assessment.invalidWeight) errors.weight = 'وزن را بین ۱۵ و ۶۵۰ کیلوگرم، با حداکثر دو رقم اعشار وارد کنید.';
     setMeasurementErrors(errors);
 
     const firstError = Object.keys(errors)[0];
@@ -79,11 +79,11 @@ export default function Assessment() {
     const values = new FormData(form);
     const contact = validateContact(values.get('name'), channel, values.get('contact'));
     const errors = {};
-    if (!contact.name) errors.name = 'اسمت رو با حروف وارد کن.';
+    if (!contact.name) errors.name = 'نام خود را با حروف وارد کنید.';
     if (!contact.value) {
       errors.contact = channel === 'phone'
-        ? 'شماره موبایل رو مثل ۰۹۱۲۳۴۵۶۷۸۹ وارد کن.'
-        : 'آیدی اینستاگرامت رو مثل ⁦@username⁩ وارد کن.';
+        ? 'شمارهٔ موبایل را مانند ۰۹۱۲۳۴۵۶۷۸۹ وارد کنید.'
+        : 'شناسهٔ اینستاگرام را مانند ⁦@username⁩ وارد کنید.';
     }
     setContactErrors(errors);
     setSendError('');
@@ -112,14 +112,14 @@ export default function Assessment() {
       const channelLabel = channel === 'phone' ? 'موبایل' : 'اینستاگرام';
       const healthLabels = result.health.map((item) => (
         item === 'other'
-          ? `مورد دیگه${result.healthDetail.trim() ? `: ${result.healthDetail.trim()}` : ''}`
+          ? `سایر${result.healthDetail.trim() ? `: ${result.healthDetail.trim()}` : ''}`
           : item
       ));
       const message = [
         'درخواست پیگیری رکسانا',
         'نام: ' + contact.name,
         channelLabel + ': ' + contact.value,
-        'BMI: ' + result.display,
+        'شاخص تودهٔ بدنی: ' + result.display,
         'مشکلات سلامتی: ' + (healthLabels.length ? healthLabels.join('، ') : 'ذکر نشده'),
         `نتیجه: ${result.inRange ? 'در محدوده بررسی اولیه' : 'خارج از محدوده بررسی اولیه'}`,
       ].join('\n');
@@ -144,30 +144,29 @@ export default function Assessment() {
   const isSending = status === 'sending';
   const byPhone = channel === 'phone';
   const resultContext = result?.inRange
-    ? 'تصمیم درباره مناسب‌بودن آمپول و شروع درمان با پزشکه.'
+    ? 'تصمیم دربارهٔ مناسب‌بودن آمپول و شروع درمان با پزشک است.'
     : result?.bmi >= 27
-      ? 'از BMI ۲۷ به بالا، در صورت وجود بعضی مشکلات مرتبط با وزن، پزشک می‌تونه دارو رو بررسی کنه.'
-      : 'اگر برای مدیریت وزنت سؤال داری، می‌تونی درباره گزینه‌های مناسب با پزشک صحبت کنی.';
+      ? 'از شاخص تودهٔ بدنی ۲۷ به بالا، در صورت وجود بعضی مشکلات مرتبط با وزن، پزشک می‌تواند دارو را بررسی کند.'
+      : 'اگر دربارهٔ مدیریت وزن خود سؤال دارید، می‌توانید دربارهٔ گزینه‌های مناسب با پزشک صحبت کنید.';
 
   return (
     <SiteLayout assessment>
       <section className="assessment" id="assessment" aria-labelledby="assessment-title">
         <div className="wrap assessment-grid">
           <div className="assessment-aside">
-            <p className="eyebrow">ارزیابی اولیه · محاسبه BMI</p>
-            <h1 id="assessment-title">آیا BMI من در محدوده بررسی آمپول لاغریه؟</h1>
-            <p>قد و وزنت رو وارد کن و اگر دوست داشتی، مشکلات سلامتت رو هم مشخص کن. نتیجه بر اساس شاخص توده بدنی (BMI) نمایش داده می‌شه.</p>
+            <p className="eyebrow">ارزیابی اولیه · محاسبهٔ شاخص تودهٔ بدنی</p>
+            <h1 id="assessment-title">ارزیابی اولیهٔ وزن و بررسی روش‌های کاهش وزن</h1>
+            <p>قد و وزن خود را وارد کنید تا شاخص تودهٔ بدنی (<bdi>BMI</bdi>) نمایش داده شود. ثبت مشکلات سلامتی اختیاری است.</p>
             <ol className="steps" aria-label="مراحل ارزیابی">
               <li aria-current={result ? undefined : 'step'}><span aria-hidden="true">۱</span> اطلاعات اولیه</li>
-              <li aria-current={result ? 'step' : undefined}><span aria-hidden="true">۲</span> نتیجه و گزینه پیگیری</li>
+              <li aria-current={result ? 'step' : undefined}><span aria-hidden="true">۲</span> نتیجه و پیگیری</li>
             </ol>
-            <p className="clinical-note">BMI یکی از معیارهای بررسیه. پزشک برای تصمیم درباره دارو، سابقه سلامت و شرایطت رو هم بررسی می‌کنه. <a href="https://www.niddk.nih.gov/health-information/weight-management/prescription-medications-treat-overweight-obesity" target="_blank" rel="noopener noreferrer">منبع پزشکی</a></p>
+            <p className="clinical-note">شاخص تودهٔ بدنی فقط یکی از معیارهای بررسی است. پزشک برای تصمیم دربارهٔ دارو، سابقهٔ سلامت و شرایط شما را هم بررسی می‌کند. <a href="https://www.niddk.nih.gov/health-information/weight-management/prescription-medications-treat-overweight-obesity" target="_blank" rel="noopener noreferrer">راهنمای پزشکی کاهش وزن</a></p>
           </div>
 
           <div className="form-card">
             <form ref={measurementForm} onSubmit={measure} hidden={Boolean(result)} noValidate autoComplete="off">
-              {/* <p className="form-kicker">مرحله ۱ از ۲</p>
-              <h3>قد و وزنت چقدره؟</h3> */}
+              <h2 className="form-title">قد و وزن خود را وارد کنید</h2>
               
               <div className="field-grid">
                 <div className="field">
@@ -198,33 +197,32 @@ export default function Assessment() {
                   ))}
                   <label className="choice">
                     <input type="checkbox" name="health" value="other" checked={otherHealth}
-                      onChange={(event) => setOtherHealth(event.target.checked)} /> مورد دیگه
+                      onChange={(event) => setOtherHealth(event.target.checked)} /> سایر
                   </label>
                 </div>
                 {otherHealth && (
                   <div className="field health-note">
-                    <label className="label" htmlFor="health-detail">مورد دیگه <span className="optional">(اختیاری)</span></label>
-                    <textarea id="health-detail" name="healthDetail" maxLength={250} rows={2} placeholder="اگر دوست داری، کوتاه بنویس." />
+                    <label className="label" htmlFor="health-detail">توضیحات بیشتر <span className="optional">(اختیاری)</span></label>
+                    <textarea id="health-detail" name="healthDetail" maxLength={250} rows={2} placeholder="در صورت تمایل، کوتاه توضیح دهید." />
                   </div>
                 )}
               </fieldset>
-              <div className="form-actions"><button className="button" type="submit">محاسبه و دیدن نتیجه</button></div>
+              <div className="form-actions"><button className="button" type="submit">محاسبه و مشاهدهٔ نتیجه</button></div>
               
             </form>
 
             {result && (
               <section aria-labelledby="result-title">
-                {/* <p className="form-kicker">مرحله ۲ از ۲</p> */}
-                <h3 id="result-title" tabIndex={-1} ref={resultHeading}>نتیجه ارزیابی اولیه</h3>
+                <h2 className="form-title" id="result-title" tabIndex={-1} ref={resultHeading}>نتیجهٔ ارزیابی اولیه</h2>
                 <div className="result-box" data-pass={String(result.inRange)}>
-                  <div className="result-metric">شاخص توده بدنی تو <strong className={result.bmi > 30 ? 'bmi-high' : undefined}>{result.display}</strong></div>
+                  <div className="result-metric">شاخص تودهٔ بدنی شما <strong className={result.bmi > 30 ? 'bmi-high' : undefined}>{result.display}</strong></div>
                   <p id="result-message">
                     {result.inRange
-                      ? 'BMI تو به آستانه بررسی اولیه آمپول کاهش وزن می‌رسه.'
-                      : 'با BMI زیر ۳۰، در محدوده بررسی اولیه برای استفاده از آمپول کاهش وزن نیستی.'}
+                      ? 'شاخص تودهٔ بدنی شما به آستانهٔ بررسی اولیهٔ آمپول کاهش وزن می‌رسد.'
+                      : 'شاخص تودهٔ بدنی شما زیر ۳۰ و پایین‌تر از آستانهٔ بررسی اولیهٔ این فرم است.'}
                   </p>
                   <p id="result-context">{resultContext}</p>
-                  {result.hasHealthContext && <p id="health-context">در گفت‌وگو با پزشک، مشکلات سلامتی‌ای رو که مشخص کردی مطرح کن.</p>}
+                  {result.hasHealthContext && <p id="health-context">در گفت‌وگو با پزشک، مشکلات سلامتی ثبت‌شده را هم مطرح کنید.</p>}
                 </div>
                 <button type="button" className="text-button" onClick={editMeasurements} disabled={isSending}>
                   ویرایش قد، وزن یا اطلاعات سلامت
@@ -233,24 +231,24 @@ export default function Assessment() {
                 <div className="followup">
                     {status === 'submitted' || status === 'unknown' ? (
                       <section id="confirmation" aria-labelledby="confirmation-title">
-                        <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>درخواستت برای تیم رکسانا ارسال شد!</h3>
+                        <h3 id="confirmation-title" tabIndex={-1} ref={confirmationHeading}>{status === 'submitted' ? 'درخواست ارسال انجام شد' : 'وضعیت ارسال مشخص نیست'}</h3>
                         <p>
                           {status === 'submitted'
-                            ? ' و به زودی باهات تماس می‌گیریم.'
-                            : 'وضعیت ارسال مشخص نیست و ممکنه پیام رسیده باشه. برای جلوگیری از پیام تکراری، دوباره ارسال نکن.'}
+                            ? 'درخواست شما برای تیم رکسانا فرستاده شد. دریافت قطعی از داخل مرورگر قابل تأیید نیست؛ برای پیگیری از راه‌های ارتباطی پایین صفحه استفاده کنید.'
+                            : 'ممکن است پیام رسیده باشد. برای جلوگیری از پیام تکراری، دوباره ارسال نکنید و با تیم رکسانا پیگیری کنید.'}
                         </p>
                       </section>
                     ) : (
                       <form onSubmit={sendContact} noValidate aria-busy={isSending}>
-                        <h3>{result.inRange ? 'دوست داری زیر نظر متخصص‌ها وزن کم کنی؟' : 'دوست داری با تیم رکسانا در ارتباط باشی؟'}</h3>
+                        <h3>درخواست تماس با تیم رکسانا</h3>
                         <p className="form-intro">
                           {result.inRange
-                            ? 'اسمت و یکی از راه‌های ارتباطی رو وارد کن تا تیم رکسانا برای هماهنگی مشاوره باهات ارتباط بگیره.'
-                            : 'اگر دوست داری با تیم رکسانا صحبت کنی، اسمت و یکی از راه‌های ارتباطی رو وارد کن تا باهات تماس بگیریم.'}
+                            ? 'برای هماهنگی مشاوره، نام و یکی از راه‌های ارتباطی خود را وارد کنید.'
+                            : 'اگر مایلید با تیم رکسانا صحبت کنید، نام و یکی از راه‌های ارتباطی خود را وارد کنید.'}
                         </p>
                         <div className="field">
                           <label className="label" htmlFor="contact-name">نام</label>
-                          <input className="input" id="contact-name" name="name" autoComplete="name" placeholder="اسم تو" required
+                          <input className="input" id="contact-name" name="name" autoComplete="name" placeholder="نام شما" required
                             maxLength={80} disabled={isSending} aria-invalid={Boolean(contactErrors.name)} aria-describedby="contact-name-error" />
                           <p className="field-error" id="contact-name-error" hidden={!contactErrors.name}>{contactErrors.name}</p>
                         </div>
@@ -258,13 +256,13 @@ export default function Assessment() {
                           <legend>راه ارتباطی دلخواه</legend>
                           <div className="choices">
                             <label className="choice"><input type="radio" name="channel" value="phone" checked={byPhone}
-                              onChange={() => { setChannel('phone'); setContactErrors({}); }} /> شماره موبایل</label>
+                              onChange={() => { setChannel('phone'); setContactErrors({}); }} /> شمارهٔ موبایل</label>
                             <label className="choice"><input type="radio" name="channel" value="instagram" checked={!byPhone}
-                              onChange={() => { setChannel('instagram'); setContactErrors({}); }} /> آیدی اینستاگرام</label>
+                              onChange={() => { setChannel('instagram'); setContactErrors({}); }} /> شناسهٔ اینستاگرام</label>
                           </div>
                         </fieldset>
                         <div className="field contact-field">
-                          <label className="label" htmlFor="contact-value">{byPhone ? 'شماره موبایل' : 'آیدی اینستاگرام'}</label>
+                          <label className="label" htmlFor="contact-value">{byPhone ? 'شمارهٔ موبایل' : 'شناسهٔ اینستاگرام'}</label>
                           <input className="input" id="contact-value" name="contact" key={channel} dir="ltr" maxLength={40} required
                             type={byPhone ? 'tel' : 'text'} autoComplete={byPhone ? 'tel' : 'off'}
                             placeholder={byPhone ? '0912 345 6789' : '@username'} disabled={isSending}

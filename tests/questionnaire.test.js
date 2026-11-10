@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFile } from 'node:fs/promises';
-import { answerText, buildMessages, questions, validateAnswers, validatePhoto } from '../lib/questionnaire.js';
+import { answerText, buildMessages, detailMaxLength, hasDetails, OTHER_OPTION, questions, selectedOptions, toggleOption, validateAnswers, validatePhoto } from '../lib/questionnaire.js';
 import { sendQuestionnaire, validBaleConfig } from '../lib/questionnaire-delivery.js';
 
 const config = { token: '123456:test_token', chatIds: ['123', '456'] };
@@ -35,7 +35,16 @@ test('Persian/Arabic numerals, decimal measurements, contact and invalid boundar
 
 test('long answers are all preserved, in order, within message limits', () => {
   const long = { ...answers };
-  for (const question of questions.filter((item) => item.type === 'textarea')) long[question.id] = `${question.id}: ` + 'ت'.repeat(1700);
+  for (const question of questions.filter((item) => item.section > 0)) {
+    const value = (field) => ({ selected: field.type === 'multi' ? [...field.options.filter((option) => !field.exclusiveOptions?.includes(option))] : [field.options.includes(OTHER_OPTION) ? OTHER_OPTION : field.options[0]],
+      ...(field.options.includes(OTHER_OPTION) ? { other: 'ت'.repeat(detailMaxLength) } : {}),
+      ...(field.detailLabel ? { details: 'ج'.repeat(detailMaxLength) } : {}),
+    });
+    if (question.type === 'groups') long[question.id] = Object.fromEntries(question.groups.map((group) => [group.id, value(group)]));
+    else if (question.type === 'multi') long[question.id] = value(question);
+    else if (question.options.includes(OTHER_OPTION)) long[question.id] = { ...value(question), selected: [OTHER_OPTION] };
+  }
+  assert.deepEqual(validateAnswers(long), {});
   const messages = buildMessages(long, {}, 'RX-test');
   assert.ok(messages.length > 5);
   assert.ok(messages.every((message) => message.length < 4096 && message.includes('RX-test')));
@@ -46,6 +55,72 @@ test('long answers are all preserved, in order, within message limits', () => {
     const position = combined.indexOf(pair);
     assert.ok(position > previous, question.id);
     previous = position;
+  }
+});
+
+test('every question after personal information has choices; compound questions retain both parts', () => {
+  assert.ok(questions.filter((question) => question.section > 0).every((question) =>
+    ['choice', 'multi', 'groups', 'photos'].includes(question.type)));
+  for (const id of ['occupation', 'sleep', 'availability']) {
+    assert.equal(questions.find((question) => question.id === id).groups.length, 2);
+  }
+});
+
+test('multi-selection has no selection cap; exclusive answers clear incompatible answers and details', () => {
+  const question = questions.find((question) => question.id === 'supplements');
+  let value;
+  for (const option of question.options.filter((option) => !question.exclusiveOptions.includes(option))) value = toggleOption(question, value, option);
+  value = { ...value, other: 'مکمل دیگر', details: 'روزانه' };
+  assert.equal(value.selected.length, question.options.length - 1);
+  assert.deepEqual(validateAnswers({ ...answers, supplements: value }), {});
+  assert.equal(hasDetails(question, value), true);
+  value = toggleOption(question, value, question.exclusiveOptions[0]);
+  assert.deepEqual(value, { selected: [question.exclusiveOptions[0]], other: '', details: '' });
+  value = toggleOption(question, value, 'کراتین');
+  assert.deepEqual(selectedOptions(value), ['کراتین']);
+  value = toggleOption(question, value, 'کراتین');
+  assert.deepEqual(value.selected, []);
+});
+
+test('single-selection replaces the previous choice and clears deselected other text', () => {
+  const question = questions.find((question) => question.id === 'location');
+  const value = toggleOption(question, { selected: [OTHER_OPTION], other: 'پارک' }, 'باشگاه');
+  assert.deepEqual(value, { selected: ['باشگاه'], other: '', details: '' });
+  assert.ok(validateAnswers({ ...answers, location: { selected: ['باشگاه', 'خانه'] } }).location);
+});
+
+test('other text is required only when selected; invalid selections, duplicates and hidden details are rejected', () => {
+  assert.ok(validateAnswers({ ...answers, goal: { selected: [OTHER_OPTION], other: '  ' } }).goal);
+  assert.deepEqual(validateAnswers({ ...answers, goal: { selected: [OTHER_OPTION], other: 'آمادگی برای کوهنوردی' } }), {});
+  for (const value of [[], 42, { selected: ['نامعتبر'] }, { selected: ['کاهش وزن', 'کاهش وزن'] },
+    { selected: ['کاهش وزن'], other: 'توضیح پنهان' }, { selected: [], details: 'توضیح پنهان' },
+    { selected: [OTHER_OPTION], other: 42 }, { selected: [OTHER_OPTION], other: 'ت'.repeat(detailMaxLength + 1) }]) {
+    assert.ok(validateAnswers({ ...answers, goal: value }).goal, JSON.stringify(value));
+  }
+  assert.ok(validateAnswers({ ...answers, conditions: { selected: ['بیماری شناخته‌شده‌ای ندارم', 'دیابت یا پیش‌دیابت'] } }).conditions);
+});
+
+test('compound choices validate and format each part without object coercion', () => {
+  const question = questions.find((question) => question.id === 'sleep');
+  const sleep = { hours: { selected: ['۷ تا کمتر از ۸ ساعت'] }, quality: { selected: [OTHER_OPTION], other: 'خواب سبک' } };
+  assert.deepEqual(validateAnswers({ ...answers, sleep }), {});
+  assert.equal(answerText(question, { sleep }, {}), 'مدت خواب در شبانه‌روز: ۷ تا کمتر از ۸ ساعت\nکیفیت خواب: سایر: خواب سبک');
+  assert.ok(validateAnswers({ ...answers, sleep: { ...sleep, quality: { selected: [OTHER_OPTION] } } }).sleep);
+  assert.ok(validateAnswers({ ...answers, sleep: 'متن آزاد قدیمی' }).sleep);
+  assert.deepEqual(validateAnswers({ ...answers, sleep: {} }), {});
+});
+
+test('web-service messages include every selected option, other text and medication details for both recipients', async () => {
+  const filled = { ...answers, goal: { selected: ['کاهش وزن', 'افزایش قدرت', OTHER_OPTION], other: 'آمادگی کوهنوردی' },
+    medications: { selected: ['داروی تیروئید'], details: 'نام و مقدار نمونه' },
+    availability: { days: { selected: ['۳ روز'] }, duration: { selected: ['۲۰ تا ۳۰ دقیقه'] } } };
+  const calls = [];
+  await sendQuestionnaire({ config, answers: filled, photos: {}, reference: 'RX-choices',
+    fetchImpl: async (url, options) => { calls.push(options.body); return { type: 'opaque' }; } });
+  for (const chatId of config.chatIds) {
+    const text = calls.filter((body) => body.get('chat_id') === chatId).map((body) => body.get('text')).join('\n');
+    for (const expected of ['کاهش وزن، افزایش قدرت، سایر: آمادگی کوهنوردی', 'توضیحات: نام و مقدار نمونه', 'تعداد روزهای تمرین در هفته: ۳ روز', 'زمان هر جلسه: ۲۰ تا ۳۰ دقیقه']) assert.ok(text.includes(expected), expected);
+    assert.equal(text.includes('[object Object]'), false);
   }
 });
 
@@ -69,7 +144,7 @@ test('direct browser delivery sends full text and multipart photos to both BMI d
   for (const id of config.chatIds) {
     const recipient = calls.filter((call) => call.body.get('chat_id') === id);
     assert.match(recipient[0].url, /\/sendMessage$/);
-    assert.match(recipient[0].body.get('text'), /عادت غذایی خاصی/);
+    assert.match(recipient[0].body.get('text'), /عادت‌ها یا محدودیت‌های غذایی/);
     assert.match(recipient[1].url, /\/sendPhoto$/);
     assert.equal(recipient[1].body.get('photo').name, 'front.png');
     assert.ok(recipient[1].body.get('caption').includes('RX-test'));

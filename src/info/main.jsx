@@ -20,6 +20,11 @@ createRoot(document.getElementById('root')).render(
       {slug === 'about' && <About />}
       {slug === 'faq' && <Faq />}
       {slug === 'privacy' && <Privacy />}
+      {slug === 'contact' && <div className="contact-content">
+        <p>برای پرسش دربارهٔ برنامه‌ها، پیگیری فرم‌های ارسالی یا ارتباط با تیم رکسانا، به نشانی زیر ایمیل بفرستید.</p>
+        <a className="button secondary" href="mailto:Roxanaa.lifestyle@gmail.com"><bdi>Roxanaa.lifestyle@gmail.com</bdi></a>
+        <p>راه‌های ارتباطی رکسانا در شبکه‌های اجتماعی هم در پایین همین صفحه قرار دارند.</p>
+      </div>}
     </section>
   </SiteLayout>,
 );

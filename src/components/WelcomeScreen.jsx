@@ -31,7 +31,7 @@ export default function WelcomeScreen({ children }) {
                 <image href={import.meta.env.BASE_URL + "roxana-logo.png"} width="1254" height="1254" />
               </svg>
             </div>
-            <p className="welcome-screen__message">حال خوبت از اینجا شروع می‌شه</p>
+            <p className="welcome-screen__message">حال خوب شما از اینجا شروع می‌شود</p>
             <span className="welcome-screen__dots" aria-hidden="true"><span /><span /><span /></span>
           </div>
         </div>

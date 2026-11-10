@@ -7,8 +7,8 @@ export default function SiteLayout({ children, assessment = false, home = false 
       <a className="skip" href="#main">رفتن به محتوای اصلی</a>
       <header className={`topbar${home ? ' topbar--hero' : ''}`}>
         <nav className="wrap nav" aria-label="منوی اصلی">
-          <a className="brand" href={import.meta.env.BASE_URL} aria-label="رکسانا، صفحه اصلی">
-            <img className="brand-mark" src={import.meta.env.BASE_URL + "roxana-logo.png"} alt="" aria-hidden="true" />
+          <a className="brand" href={import.meta.env.BASE_URL} aria-label="رکسانا، صفحهٔ اصلی">
+            <img className="brand-mark" src={import.meta.env.BASE_URL + "roxana-logo.png"} width="72" height="72" alt="" aria-hidden="true" />
             <span className="brand-name">رکسانا</span>
           </a>
           <div className="nav-links">

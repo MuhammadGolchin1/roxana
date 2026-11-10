@@ -3,8 +3,8 @@
   background: #0d254c;
   color: #edf8fa;
   border-top: 3px solid #13b5c6;
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.95;
 }
 
 .site-footer__inner {
@@ -27,11 +27,11 @@
 
 .site-footer__brand img { display: block; width: 64px; height: 64px; object-fit: contain; }
 .site-footer__brand strong { display: block; font-size: 26px; line-height: 1.5; font-weight: 800; }
-.site-footer__brand > span > span { display: block; margin-top: 3px; color: #b7cfdf; font-size: 12px; }
-.site-footer__tagline { margin: 18px 0 0; color: #c3dce6; font-size: 14px; }
-.site-footer__heading { margin: 0 0 16px; font-size: 16px; font-weight: 700; line-height: 1.7; }
+.site-footer__brand > span > span { display: block; margin-top: 3px; color: #b7cfdf; font-size: 14px; }
+.site-footer__tagline { margin: 18px 0 0; color: #c3dce6; font-size: 16px; }
+.site-footer__heading { margin: 0 0 16px; font-size: 18px; font-weight: 700; line-height: 1.8; }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
-.site-footer__nav a { display: inline-flex; align-items: center; min-height: 40px; color: #c3dce6; }
+.site-footer__nav a { display: inline-flex; align-items: center; min-height: 44px; color: #c3dce6; }
 .site-footer a { text-decoration: none; }
 .site-footer a:hover { color: #65dce5; }
 .site-footer a:focus-visible { outline: 2px solid #65dce5; outline-offset: 5px; border-radius: 4px; }
@@ -40,11 +40,11 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-height: 40px;
+  min-height: 44px;
   max-width: 100%;
   margin-bottom: 14px;
   color: #c3dce6;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .site-footer__email svg { width: 20px; height: 20px; flex: none; color: #65dce5; }
@@ -75,11 +75,11 @@
   padding-block: 17px;
   border-top: 1px solid #ffffff24;
   color: #adc6d8;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .site-footer__bottom p { margin: 0; }
-.site-footer__bottom a { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; }
+.site-footer__bottom a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
 .site-footer__bottom a span { color: #65dce5; font-size: 18px; }
 
 @media (max-width: 1000px) {
